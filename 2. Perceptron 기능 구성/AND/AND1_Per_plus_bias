@@ -1,0 +1,58 @@
+// AND 학습 weights + bias
+// nvcc -o "DeepLearning/AND/AND1_Per_plus_bias" "DeepLearning/AND/AND1_Per_plus_bias.cu" -lpng --expt-relaxed-constexpr -lcurand -lcuda -lcudart -lcublas
+// "./DeepLearning/AND/AND1_Per_plus_bias"
+
+// Using CUDA library : -lcuda -lcudart -lcublas
+
+#include <cuda_runtime.h>
+#include <device_launch_parameters.h>
+#include <iostream>
+
+const int INPUT_SIZE = 2;
+const int OUTPUT_SIZE = 1;
+const int BATCH_SIZE = 4;
+
+__global__ void and_kernel(float* inputs, float* weights, float *bias, float* output)
+{
+    int id = blockIdx.x * blockDim.x + threadIdx.x;
+    int index = threadIdx.x;
+    float sum = inputs[id * INPUT_SIZE] * weights[0] + inputs[id * INPUT_SIZE + 1] * weights[1] + bias[0];
+    output[index] = sum;
+}
+
+int main()
+{
+    // 입력 값, 가중치, 편향 초기화
+    float inputs[BATCH_SIZE][INPUT_SIZE] = { {0.0f, 0.0f}, {0.0f, 1.0f}, {1.0f, 0.0f}, {1.0f, 1.0f} };
+    float weights[2] = { 1.0f, 1.0f }; // 0.75f, 0.75f
+    float bias[1] = { -1.0f }; // -0.5f
+
+    // 출력 값을 저장할 배열 초기화
+    float output[BATCH_SIZE] = {};
+
+    // CUDA 메모리 할당
+    float *d_inputs, *d_output, *d_weights, *d_bias;
+    cudaMalloc(&d_inputs, BATCH_SIZE * INPUT_SIZE * sizeof(float));
+    cudaMalloc(&d_output, BATCH_SIZE * OUTPUT_SIZE * sizeof(float));
+    cudaMalloc(&d_weights, INPUT_SIZE * sizeof(float));
+    cudaMalloc(&d_bias, 1 * sizeof(float));
+
+    // 입력 데이터를 GPU로 복사
+    cudaMemcpy(d_inputs, inputs, BATCH_SIZE * INPUT_SIZE * sizeof(float), cudaMemcpyHostToDevice);
+    cudaMemcpy(d_weights, weights, INPUT_SIZE * sizeof(float), cudaMemcpyHostToDevice);
+    cudaMemcpy(d_bias, bias, 1 * sizeof(float), cudaMemcpyHostToDevice);
+
+    // CUDA 커널 함수 호출
+    and_kernel<<<1, 4>>>(d_inputs, d_weights, d_bias, d_output);
+
+    // 출력 데이터를 호스트로 복사
+    cudaMemcpy(output, d_output, BATCH_SIZE * sizeof(float), cudaMemcpyDeviceToHost);
+
+    // 결과 출력
+    for (int i = 0; i < BATCH_SIZE; i++) {
+        std::cout << "AND(" << inputs[i][0] << ", " << inputs[i][1] << ") = " << output[i] << std::endl;
+    }
+
+    return 0;
+}
+
