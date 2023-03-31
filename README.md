@@ -6,7 +6,13 @@
 CUDA C++로 진행하는 DeepLearning의 모든 것!
 
 ### 목표
-- [x] : 
+
+- [ ] Perceptron 기능 구성
+  - [ ] AND
+    - [x] : AND Perceptron Only Weight 구성
+    - [x] : AND Perceptron Only Weight + Bias 구성
+    - [x] : AND Perceptron Only Weight + Bias + HiddenLayer 구성
+    - [ ] : AND Perceptron Model 코드 구성
 
 
 ### 제작자
