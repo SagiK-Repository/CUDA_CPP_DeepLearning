@@ -7,10 +7,10 @@ CUDA C++로 진행하는 DeepLearning의 모든 것!
 
 ### 목표
 
-- [x] CUDA C++ 친해지기
+- [x] 1. CUDA C++ 친해지기
   - [x] Mandelbrot Set 구현
   - [x] Julia Set 구현
-- [ ] Perceptron 기능 구성
+- [ ] 2. Perceptron 기능 구성
   - [ ] AND
     - [x] : AND Perceptron Only Weight 구성
     - [x] : AND Perceptron Only Weight + Bias 구성
