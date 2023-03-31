@@ -11,7 +11,7 @@ CUDA C++로 진행하는 DeepLearning의 모든 것!
 
 - [x] 1. CUDA C++ 친해지기
   - [x] [Mandelbrot Set 구현](https://github.com/SagiK-Repository/CUDA_CPP_DeepLearning/blob/main/1.%20CUDA%20C%2B%2B%20%EC%B9%9C%ED%95%B4%EC%A7%80%EA%B8%B0/mandel%20brot%20set.cu)
-  - [x] Mandelbrot Set PNG 구현
+  - [x] [Mandelbrot Set PNG 구현](https://github.com/SagiK-Repository/CUDA_CPP_DeepLearning/blob/main/1.%20CUDA%20C%2B%2B%20%EC%B9%9C%ED%95%B4%EC%A7%80%EA%B8%B0/mandelbrot%20set%20PNG.cu)
   - [x] Julia Set 구현
 - [ ] 2. Perceptron 기능 구성
   - [ ] AND
