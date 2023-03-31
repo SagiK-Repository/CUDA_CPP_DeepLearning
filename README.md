@@ -15,9 +15,9 @@ CUDA C++로 진행하는 DeepLearning의 모든 것!
   - [x] [Julia Set 구현](https://github.com/SagiK-Repository/CUDA_CPP_DeepLearning/blob/main/1.%20CUDA%20C%2B%2B%20%EC%B9%9C%ED%95%B4%EC%A7%80%EA%B8%B0/Julia%20Set/juliaset.cu)
 - [ ] 2. Perceptron 기능 구성
   - [ ] AND
-    - [x] : AND Perceptron Only Weight 구성
-    - [x] : AND Perceptron Only Weight + Bias 구성
-    - [x] : AND Perceptron Only Weight + Bias + HiddenLayer 구성
+    - [x] : [AND Perceptron Only Weight 구성](https://github.com/SagiK-Repository/CUDA_CPP_DeepLearning/blob/main/2.%20Perceptron%20%EA%B8%B0%EB%8A%A5%20%EA%B5%AC%EC%84%B1/AND/AND0_Per.cu)
+    - [x] : [AND Perceptron Only Weight + Bias 구성](https://github.com/SagiK-Repository/CUDA_CPP_DeepLearning/blob/main/2.%20Perceptron%20%EA%B8%B0%EB%8A%A5%20%EA%B5%AC%EC%84%B1/AND/AND1_Per_plus_bias)
+    - [x] : [AND Perceptron Only Weight + Bias + HiddenLayer 구성](https://github.com/SagiK-Repository/CUDA_CPP_DeepLearning/blob/main/2.%20Perceptron%20%EA%B8%B0%EB%8A%A5%20%EA%B5%AC%EC%84%B1/AND/AND2_PerPlus_Hidden)
     - [ ] : AND Perceptron Model 코드 구성
 
 
