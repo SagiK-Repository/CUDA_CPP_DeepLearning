@@ -1,0 +1,75 @@
+// AND 학습 weights + bias
+// nvcc -o "DeepLearning/AND/AND2_PerPlus_Hidden" "DeepLearning/AND/AND2_PerPlus_Hidden.cu" -lpng --expt-relaxed-constexpr -lcurand -lcuda -lcudart -lcublas
+// "./DeepLearning/AND/AND2_PerPlus_Hidden"
+
+// Using CUDA library : -lcuda -lcudart -lcublas
+
+#include <cuda_runtime.h>
+#include <device_launch_parameters.h>
+#include <iostream>
+
+const int INPUT_SIZE = 2;
+const int OUTPUT_SIZE = 1;
+const int HIDDEN_SIZE = 2;
+const int BATCH_SIZE = 4;
+
+__device__ float sigmoid(float x) {
+    return 1.0f / (1.0f + expf(-x));
+}
+
+__global__ void and_kernel(float* inputs, float* weights1, float* weights2, float *bias1, float *bias2, float* output)
+{
+    int id = blockIdx.x * blockDim.x + threadIdx.x;
+    int index = threadIdx.x;
+    
+    float hidden_sum1 = inputs[id * INPUT_SIZE] * weights1[0] + inputs[id * INPUT_SIZE + 1] * weights1[1] + bias1[0];
+    float hidden_sum2 = inputs[id * INPUT_SIZE] * weights1[2] + inputs[id * INPUT_SIZE + 1] * weights1[3] + bias1[1];
+    float hidden1 = sigmoid(-hidden_sum1); // 시그모이드 활성화 함수
+    float hidden2 = sigmoid(-hidden_sum2); // 시그모이드 활성화 함수
+
+    float sum = hidden1 * weights2[0] + hidden1 * weights2[1] + hidden2 * weights2[0] + hidden2 * weights2[1] + bias2[0];
+    output[index] = sigmoid(sum);
+}
+
+int main()
+{
+    // 입력 값, 가중치, 편향 초기화
+    float inputs[BATCH_SIZE][INPUT_SIZE] = { {0.0f, 0.0f}, {0.0f, 1.0f}, {1.0f, 0.0f}, {1.0f, 1.0f} };
+    float weights1[2][HIDDEN_SIZE] = { {0.5f, 0.5f}, {0.5f, 0.5f} }; // HiddenLayer의 가중치
+    float weights2[HIDDEN_SIZE] = { 0.5f, 0.5f }; // 출력층의 가중치
+    float bias1[2] = { 0.5f, 0.5f }; // HiddenLayer bias
+    float bias2[1] = { 0.5f }; // 출력층의 bias
+
+    // 출력 값을 저장할 배열 초기화
+    float output[BATCH_SIZE] = {};
+
+    // CUDA 메모리 할당
+    float *d_inputs, *d_output, *d_weights1, *d_weights2, *d_bias1, *d_bias2;
+    cudaMalloc(&d_inputs, BATCH_SIZE * INPUT_SIZE * sizeof(float));
+    cudaMalloc(&d_output, BATCH_SIZE * OUTPUT_SIZE * sizeof(float));
+    cudaMalloc(&d_weights1, INPUT_SIZE * HIDDEN_SIZE * sizeof(float));
+    cudaMalloc(&d_weights2, HIDDEN_SIZE * sizeof(float));
+    cudaMalloc(&d_bias1, 2 * sizeof(float));
+    cudaMalloc(&d_bias2, 1 * sizeof(float));
+
+    // 입력 데이터를 GPU로 복사
+    cudaMemcpy(d_inputs, inputs, BATCH_SIZE * INPUT_SIZE * sizeof(float), cudaMemcpyHostToDevice);
+    cudaMemcpy(d_weights1, weights1, INPUT_SIZE * HIDDEN_SIZE * sizeof(float), cudaMemcpyHostToDevice);
+    cudaMemcpy(d_weights2, weights2, HIDDEN_SIZE * sizeof(float), cudaMemcpyHostToDevice);
+    cudaMemcpy(d_bias1, bias1, 2 * sizeof(float), cudaMemcpyHostToDevice);
+    cudaMemcpy(d_bias2, bias2, 1 * sizeof(float), cudaMemcpyHostToDevice);
+
+    // CUDA 커널 함수 호출
+    and_kernel<<<1, 4>>>(d_inputs, d_weights1, d_weights2, d_bias1, d_bias2, d_output);
+
+    // 출력 데이터를 호스트로 복사
+    cudaMemcpy(output, d_output, BATCH_SIZE * sizeof(float), cudaMemcpyDeviceToHost);
+
+    // 결과 출력
+    for (int i = 0; i < BATCH_SIZE; i++) {
+        std::cout << "AND(" << inputs[i][0] << ", " << inputs[i][1] << ") = " << output[i] << std::endl;
+    }
+
+    return 0;
+}
+
