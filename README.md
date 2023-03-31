@@ -30,5 +30,16 @@ CUDA C++로 진행하는 DeepLearning의 모든 것!
 
 <br>
 
+```mermaid
+flowchart TB
+  subgraph TOP1["1. CUDA C++ 친해지기"]
+      A00["Mandelbrot Set"]--->A01["Mandelbrot Set PNG"]--->A02["Julia Set"]
+  end
+  subgraph TOP2["2. Perceptron 기능 구성"]
+      A10["AND Weight"]--->A11["AND Weight + Bias"]--->A12["AND HiddenLayer"]
+  end
+TOP1--->TOP2
+```
+
 ## 내용
 
