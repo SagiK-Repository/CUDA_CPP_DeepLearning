@@ -22,7 +22,12 @@ CUDA C++로 진행하는 DeepLearning의 모든 것!
     - [x] : [AND Perceptron Only Weight 구성](https://github.com/SagiK-Repository/CUDA_CPP_DeepLearning/blob/main/2.%20Perceptron%20%EA%B8%B0%EB%8A%A5%20%EA%B5%AC%EC%84%B1/AND/AND0_Per.cu)
     - [x] : [AND Perceptron Only Weight + Bias 구성](https://github.com/SagiK-Repository/CUDA_CPP_DeepLearning/blob/main/2.%20Perceptron%20%EA%B8%B0%EB%8A%A5%20%EA%B5%AC%EC%84%B1/AND/AND1_Per_plus_bias)
     - [x] : [AND Perceptron Only Weight + Bias + HiddenLayer 구성](https://github.com/SagiK-Repository/CUDA_CPP_DeepLearning/blob/main/2.%20Perceptron%20%EA%B8%B0%EB%8A%A5%20%EA%B5%AC%EC%84%B1/AND/AND2_PerPlus_Hidden)
-    - [ ] : AND Perceptron Model 코드 구성
+  - [ ] : Perceptron Model 코드 구성
+    - [ ] : Custom Forward Nomal Model
+    - [ ] : Custom Forward Input Model
+    - [ ] : Custom Forward Output Model
+    - [ ] : Custom Forward Hiddem Model
+    - [ ] : Custom Backward Model
 
 
 ### 제작자
